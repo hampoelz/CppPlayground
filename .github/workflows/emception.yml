@@ -7,23 +7,13 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    container: emscripten/emsdk:latest
     steps:
-      - name: Install dependencies
-        run: |
-          apt update -y
-          apt install -y pkg-config ninja-build jq brotli autoconf autoconf-archive automake zlib1g-dev
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           repository: jprendes/emception
-      - name: Prepare emception build
-        run: |
-          mkdir build
-          echo "$EMSDK/upstream/bin" >> $GITHUB_PATH
-          ln -s /emsdk/upstream/emscripten/cache build/emsdk_cache
       - name: Build emception
-        run: ./build.sh
+        run: ./build-with-docker.sh
       - name: Archive build artifacts
         run: zip -r emception.zip build
       - name: Upload build artifacts

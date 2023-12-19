@@ -13,7 +13,9 @@ jobs:
         with:
           repository: InfiniBrains/emception
       - name: Build emception
-        run: ./build-with-docker.sh
+        run: |
+          > ./build-demo.sh
+          ./build-with-docker.sh
       - name: Archive build artifacts
         run: zip -r emception.zip build
       - name: Upload build artifacts

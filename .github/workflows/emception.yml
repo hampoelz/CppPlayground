@@ -8,18 +8,31 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout emception repository
         uses: actions/checkout@v4
         with:
           repository: InfiniBrains/emception
+          path: 'emception'
       - name: Build emception
+        working-directory: emception
         run: |
           > ./build-demo.sh
           ./build-with-docker.sh
-      - name: Archive build artifacts
-        run: zip -r emception.zip build
-      - name: Upload build artifacts
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: 'project'
+      - name: Copy build artifacts
+        run: cp -r emception/build/emception project/emception-build
+      - name: Bundle emception
+        working-directory: project/emception
+        run: |
+          npm install
+          npm run bundle
+      - name: Archive artifacts
+        run: zip -r emception.zip project/emception/dist
+      - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: emception-build
+          name: emception-bundle
           path: emception.zip

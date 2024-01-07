@@ -16,6 +16,7 @@ jobs:
       - name: Build emception
         working-directory: emception
         run: |
+          sed -i '/^EMSCRIPTEN_VERSION=/s/=.*/=3.1.51/' .env
           > ./build-demo.sh
           ./build-with-docker.sh
       - name: Checkout repository

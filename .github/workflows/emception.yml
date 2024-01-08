@@ -7,6 +7,11 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # for VERSION in {26..51}; do echo -ne "$VERSION, "; done
+        emscripten: [ 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51 ]
     steps:
       - name: Checkout emception repository
         uses: actions/checkout@v4
@@ -16,7 +21,7 @@ jobs:
       - name: Build emception
         working-directory: emception
         run: |
-          sed -i '/^EMSCRIPTEN_VERSION=/s/=.*/=3.1.51/' .env
+          sed -i '/^EMSCRIPTEN_VERSION=/s/=.*/=3.1.${{ matrix.emscripten }}/' .env
           > ./build-demo.sh
           ./build-with-docker.sh
       - name: Checkout repository

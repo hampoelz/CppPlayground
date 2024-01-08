@@ -22,6 +22,7 @@ jobs:
         working-directory: emception
         run: |
           sed -i '/^EMSCRIPTEN_VERSION=/s/=.*/=3.1.${{ matrix.emscripten }}/' .env
+          sed -i '/^CPYTHON_COMMIT=/s/=.*/=2305ca51448552542b2414186252123a8dc87db7/' .env
           > ./build-demo.sh
           ./build-with-docker.sh
       - name: Checkout repository
